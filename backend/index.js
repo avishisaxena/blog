@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const uploadMiddleware = multer({ dest: 'uploads/' });
 const fs = require('fs');
+require('dotenv').config();
 
 const salt = bcrypt.genSaltSync(10);
 const secret = 'asdfe45we45w345wegw345werjktjwertkj';
@@ -19,7 +20,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-mongoose.connect("mongodb+srv://sample01:mynameiskhan1@cluster1.kq1qbar.mongodb.net/blog", {useNewUrlParser:true , useUnifiedTopology:true})
+const connectionString = process.env.MONGODB_CONNECTION_STRING;
+
+mongoose.connect(connectionString, {useNewUrlParser:true , useUnifiedTopology:true})
 .then( ()=> console.log("success") )
 .catch((err) => console.log(err));
 
